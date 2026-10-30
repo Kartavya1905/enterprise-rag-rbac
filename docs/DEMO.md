@@ -11,7 +11,7 @@ docker compose exec api python -m scripts.bootstrap
 ```
 
 Set `DEMO_LOGIN=true` in `.env` (dev only) and restart the API with
-`docker compose up -d api`. Ask one warm-up question so the model is loaded and the first
+`docker compose up -d --force-recreate api`. Ask one warm-up question so the model is loaded and the first
 answer on camera isn't the ~35 s cold start.
 
 Open **http://localhost:8000/app/**.
@@ -85,8 +85,9 @@ As Samuel, open **Admin → Audit log**.
 - The counters show the injection attempt from Scene 4, plus the self-grant attempt.
 - Helena's salary question appears as **`[hidden]`**: the log never shows an admin
   something their own clearance can't read.
-- Click **Verify chain** → *intact*. *Say:* every row includes the hash of the row before it,
-  so editing or deleting any past event breaks the chain and shows exactly where.
+- Point to the badge at the top: **"✓ Log intact - N events verified"**, which the page checks
+  every time it opens. *Say:* every row includes the hash of the row before it, so editing
+  or deleting any past event breaks the chain, and the badge turns red at that exact event.
 
 ## Closing line (10 s)
 

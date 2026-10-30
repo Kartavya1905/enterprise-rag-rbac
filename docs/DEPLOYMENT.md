@@ -160,7 +160,8 @@ docker compose @prod exec -T postgres pg_restore -U rag -d enterprise_rag --clea
 **Monitor:**
 - `GET /health/ready` returns 503 when a database is down. The Docker healthcheck uses it.
 - **Admin → Audit log** shows security counters (injections, failed logins, self-grants).
-  **Verify chain** checks that the log hasn't been altered.
+  Its badge, "✓ Log intact - N events verified", confirms each time the page opens that the
+  log hasn't been altered.
 - `docker compose @prod logs -f api` shows `SECURITY` and `CRITICAL` lines, the ones that
   matter.
 
@@ -183,7 +184,7 @@ question. Longer means no ~35 s cold start, but ~5.6 GB of GPU memory stays in u
 - [ ] No demo personas, and every real account created with `create_user`
 - [ ] Only port 8000 is reachable from outside, through Tailscale, a tunnel or HTTPS
 - [ ] A backup of the database and `data/raw/` exists, and you've tried restoring it once
-- [ ] **Admin → Audit log → Verify chain** reports intact
+- [ ] **Admin → Audit log** shows "✓ Log intact"
 - [ ] The CI badge is green for the commit you deployed
 
 ## 9. Known limitations

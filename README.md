@@ -27,6 +27,7 @@ flowchart LR
 
 | Want to… | Go to |
 |---|---|
+| **Understand it without a technical background** | **[docs/README.md](docs/README.md)**: 9 step-by-step guides with examples, also as [one PDF](docs/Orbitra-Assist-Complete-Guide.pdf) |
 | Run it in 5 commands | [Quick start with Docker](#quick-start-with-docker) |
 | Show it to someone | [docs/DEMO.md](docs/DEMO.md), or `python -m scripts.demo` |
 | Deploy it for real | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) |
