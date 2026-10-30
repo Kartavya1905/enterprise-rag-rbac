@@ -1,0 +1,37 @@
+# =============================================================================
+# FILE:         .github/dependabot.yml
+# WHAT IT DOES: Asks GitHub's Dependabot (free) to open a pull request once a week when
+#               a library, Docker image or CI action has a newer version. CI then tests
+#               the update before anyone merges it.
+# WHERE IT FITS: Phase 12. Keeps security fixes flowing in without manual checking.
+#
+# NOTE: qdrant-client (pyproject.toml) and the qdrant/qdrant image (docker-compose.yml)
+# must stay on the same minor version, so they're held back here and upgraded together.
+# =============================================================================
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: weekly
+    ignore:
+      - dependency-name: qdrant-client
+        update-types: ["version-update:semver-minor", "version-update:semver-major"]
+
+  - package-ecosystem: docker-compose
+    directory: /
+    schedule:
+      interval: weekly
+    ignore:
+      - dependency-name: qdrant/qdrant
+        update-types: ["version-update:semver-minor", "version-update:semver-major"]
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

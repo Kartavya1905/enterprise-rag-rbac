@@ -1,0 +1,17 @@
+# =============================================================================
+# FILE:         docker-compose.gpu.yml
+# WHAT IT DOES: Optional add-on that lets the Ollama container use an NVIDIA GPU.
+#               Without it, Ollama runs on the CPU (works everywhere, just slower).
+# USE:          docker compose -f docker-compose.yml -f docker-compose.gpu.yml \
+#                 --profile llm up -d ollama
+# NEEDS:        an NVIDIA GPU + driver; Docker Desktop (WSL2) passes it through.
+# =============================================================================
+services:
+  ollama:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

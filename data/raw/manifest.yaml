@@ -1,0 +1,281 @@
+company: Orbitra Systems
+documents:
+- doc_id: employee-handbook
+  path: public/employee_handbook.pdf
+  title: Orbitra Employee Handbook 2026
+  source_type: pdf
+  owner: Amara Nwosu
+  clearance_level: 1
+  departments:
+  - all
+  allowed_users: []
+  denied_users: []
+  contains_pii: false
+  column_policies: []
+  key_columns: []
+  tags: []
+- doc_id: holiday-calendar-2026
+  path: public/holiday_calendar_2026.xlsx
+  title: Company Holidays 2026
+  source_type: xlsx
+  owner: Amara Nwosu
+  clearance_level: 1
+  departments:
+  - all
+  allowed_users: []
+  denied_users: []
+  contains_pii: false
+  column_policies: []
+  key_columns: []
+  tags: []
+- doc_id: it-helpdesk-faq
+  path: public/it_helpdesk_faq.pdf
+  title: IT Helpdesk FAQ
+  source_type: pdf
+  owner: Samuel Osei
+  clearance_level: 1
+  departments:
+  - all
+  allowed_users: []
+  denied_users: []
+  contains_pii: false
+  column_policies: []
+  key_columns: []
+  tags: []
+- doc_id: office-wifi-guide
+  path: public/office_wifi_guide.pdf
+  title: Office Wi-Fi Guide
+  source_type: pdf
+  owner: Samuel Osei
+  clearance_level: 1
+  departments:
+  - all
+  allowed_users: []
+  denied_users: []
+  contains_pii: false
+  column_policies: []
+  key_columns: []
+  tags:
+  - poisoned
+  - test-fixture
+- doc_id: product-roadmap-2027
+  path: internal/product_roadmap_2027.pdf
+  title: Product Roadmap 2027
+  source_type: pdf
+  owner: Kenji Watanabe
+  clearance_level: 2
+  departments:
+  - all
+  allowed_users: []
+  denied_users: []
+  contains_pii: false
+  column_policies: []
+  key_columns: []
+  tags: []
+- doc_id: employee-directory
+  path: internal/employee_directory.xlsx
+  title: Employee Directory
+  source_type: xlsx
+  owner: Amara Nwosu
+  clearance_level: 2
+  departments:
+  - all
+  allowed_users: []
+  denied_users: []
+  contains_pii: true
+  column_policies:
+  - columns:
+    - Base Salary (USD)
+    clearance_level: 3
+    departments:
+    - hr
+    - finance
+    allowed_users: []
+    denied_users: []
+  - columns:
+    - Performance Rating (2025)
+    clearance_level: 3
+    departments:
+    - hr
+    allowed_users: []
+    denied_users: []
+  key_columns:
+  - Employee ID
+  - Name
+  tags:
+  - mixed-sensitivity
+- doc_id: platform-architecture
+  path: engineering/platform_architecture.pdf
+  title: Orbitra Platform Architecture
+  source_type: pdf
+  owner: Samuel Osei
+  clearance_level: 2
+  departments:
+  - engineering
+  allowed_users: []
+  denied_users: []
+  contains_pii: false
+  column_policies: []
+  key_columns: []
+  tags: []
+- doc_id: incident-runbook
+  path: engineering/incident_response_runbook.docx
+  title: Incident Response Runbook
+  source_type: docx
+  owner: Priya Raman
+  clearance_level: 2
+  departments:
+  - engineering
+  allowed_users: []
+  denied_users: []
+  contains_pii: false
+  column_policies: []
+  key_columns: []
+  tags: []
+- doc_id: sales-playbook
+  path: sales/sales_playbook_2026.docx
+  title: Sales Playbook 2026
+  source_type: docx
+  owner: Grace Lindqvist
+  clearance_level: 2
+  departments:
+  - sales
+  allowed_users: []
+  denied_users: []
+  contains_pii: false
+  column_policies: []
+  key_columns: []
+  tags: []
+- doc_id: performance-review-guidelines
+  path: hr/performance_review_guidelines.pdf
+  title: Performance Review Guidelines for Managers
+  source_type: pdf
+  owner: Daniel Kim
+  clearance_level: 3
+  departments:
+  - all
+  allowed_users: []
+  denied_users: []
+  contains_pii: false
+  column_policies: []
+  key_columns: []
+  tags: []
+- doc_id: salary-bands-2026
+  path: hr/salary_bands_2026.pdf
+  title: Salary Bands 2026
+  source_type: pdf
+  owner: Amara Nwosu
+  clearance_level: 3
+  departments:
+  - hr
+  - finance
+  allowed_users: []
+  denied_users: []
+  contains_pii: false
+  column_policies: []
+  key_columns: []
+  tags: []
+- doc_id: workplace-investigation-2026-07
+  path: hr/workplace_investigation_2026_07.pdf
+  title: Investigation Report HR-2026-014
+  source_type: pdf
+  owner: Amara Nwosu
+  clearance_level: 3
+  departments:
+  - hr
+  - executive
+  allowed_users: []
+  denied_users:
+  - u_hr_partner
+  contains_pii: true
+  column_policies: []
+  key_columns: []
+  tags: []
+- doc_id: department-budgets-fy2027
+  path: finance/department_budgets_fy2027.xlsx
+  title: Department Budgets FY2027
+  source_type: xlsx
+  owner: Olivia Brandt
+  clearance_level: 3
+  departments:
+  - finance
+  - executive
+  allowed_users: []
+  denied_users: []
+  contains_pii: false
+  column_policies: []
+  key_columns: []
+  tags: []
+- doc_id: cloud-cost-review-fy2027
+  path: finance/cloud_cost_review_fy2027.pdf
+  title: Cloud Cost Review FY2027
+  source_type: pdf
+  owner: Sofia Alvarez
+  clearance_level: 3
+  departments:
+  - finance
+  allowed_users:
+  - u_eng_manager
+  denied_users: []
+  contains_pii: false
+  column_policies: []
+  key_columns: []
+  tags: []
+- doc_id: payroll-2026-q3
+  path: finance/payroll_2026_q3.xlsx
+  title: Payroll Register Q3 2026
+  source_type: xlsx
+  owner: Olivia Brandt
+  clearance_level: 3
+  departments:
+  - hr
+  - finance
+  allowed_users: []
+  denied_users: []
+  contains_pii: true
+  column_policies: []
+  key_columns: []
+  tags: []
+- doc_id: exec-compensation-2026
+  path: executive/executive_compensation_2026.pdf
+  title: Executive Compensation 2026
+  source_type: pdf
+  owner: Helena Voss
+  clearance_level: 4
+  departments:
+  - executive
+  allowed_users: []
+  denied_users: []
+  contains_pii: true
+  column_policies: []
+  key_columns: []
+  tags: []
+- doc_id: board-minutes-2026-q3
+  path: executive/board_minutes_2026_q3.pdf
+  title: Board Meeting Minutes - Q3 2026
+  source_type: pdf
+  owner: Helena Voss
+  clearance_level: 4
+  departments:
+  - executive
+  allowed_users: []
+  denied_users: []
+  contains_pii: false
+  column_policies: []
+  key_columns: []
+  tags: []
+- doc_id: restructuring-plan-2027
+  path: executive/restructuring_plan_2027.pdf
+  title: Restructuring Plan 2027
+  source_type: pdf
+  owner: Helena Voss
+  clearance_level: 4
+  departments:
+  - executive
+  allowed_users: []
+  denied_users: []
+  contains_pii: false
+  column_policies: []
+  key_columns: []
+  tags:
+  - existence-sensitive

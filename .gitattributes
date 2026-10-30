@@ -1,0 +1,7 @@
+# Keep text files with Unix line endings (LF) everywhere, including Windows checkouts:
+# the Docker image and CI run on Linux. Documents are binary - never touch their bytes.
+* text=auto eol=lf
+*.pdf binary
+*.docx binary
+*.xlsx binary
+*.png binary

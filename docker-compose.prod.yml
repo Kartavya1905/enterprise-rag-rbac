@@ -1,0 +1,57 @@
+# =============================================================================
+# FILE:         docker-compose.prod.yml
+# WHAT IT DOES: Production add-on for docker-compose.yml. Same services, but with real
+#               secrets, password-protected databases, ENVIRONMENT=prod, no demo login,
+#               automatic restarts and capped log files.
+# WHERE IT FITS: Phase 12. See docs/DEPLOYMENT.md for the full walkthrough.
+# USE:
+#   cp .env.prod.example .env.prod        # then fill in the three secrets
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml \
+#     --env-file .env.prod -p enterprise-rag-prod up -d --build
+#
+# `-p enterprise-rag-prod` gives production its OWN volumes, separate from the dev stack,
+# so the dev database (with its dev password) is never reused.
+# Every `${VAR:?...}` below makes Compose stop with that message if the secret is missing.
+# =============================================================================
+
+# Shared settings, reused below with <<: *defaults
+x-defaults: &defaults
+  restart: unless-stopped  # come back after a crash or a reboot
+  logging:  # rotate logs so they can't fill the disk
+    driver: json-file
+    options:
+      max-size: "10m"
+      max-file: "3"
+
+services:
+  # --- Postgres: a real password instead of the dev one ---
+  postgres:
+    <<: *defaults
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env.prod}
+
+  # --- Qdrant: require an API key on every request (dev Qdrant has none) ---
+  qdrant:
+    <<: *defaults
+    environment:
+      QDRANT__SERVICE__API_KEY: ${QDRANT_API_KEY:?set QDRANT_API_KEY in .env.prod}
+      QDRANT__TELEMETRY_DISABLED: "true"  # don't send usage statistics anywhere
+
+  # --- API: prod settings that the env file can't weaken ---
+  api:
+    <<: *defaults
+    env_file: !override
+      - path: .env.prod
+        required: true
+    environment:
+      ENVIRONMENT: prod  # refuses to start with a weak JWT secret or demo login on
+      DEMO_LOGIN: "false"
+      DATABASE_URL: postgresql+psycopg://rag:${POSTGRES_PASSWORD}@postgres:5432/enterprise_rag
+      QDRANT_API_KEY: ${QDRANT_API_KEY}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:?set JWT_SECRET_KEY in .env.prod}
+
+  # --- Ollama: keep the model warm so answers don't wait for a cold start ---
+  ollama:
+    <<: *defaults
+    environment:
+      OLLAMA_KEEP_ALIVE: ${OLLAMA_KEEP_ALIVE:-5m}

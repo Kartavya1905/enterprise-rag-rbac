@@ -1,0 +1,77 @@
+# =============================================================================
+# FILE:         pyproject.toml
+# WHAT IT DOES: Project metadata, the list of libraries it needs, and tool settings.
+# INSTALL:      pip install -e ".[dev]"   (base + dataset + test tools)
+# =============================================================================
+
+# --- How to build/install this project as a Python package ---
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "enterprise-rag-rbac"
+version = "1.0.0"  # Phase 12: feature-complete, CI + deployment ready
+description = "Enterprise document RAG assistant with role-based access control enforced at retrieval time."
+readme = "README.md"
+requires-python = ">=3.11"
+# --- Base libraries: always installed (also inside the Docker image) ---
+dependencies = [
+    "fastapi>=0.115",               # web API framework
+    "uvicorn[standard]>=0.30",      # web server that runs FastAPI
+    "pydantic>=2.7",                # data validation
+    "pydantic-settings>=2.3",       # settings from .env
+    "sqlalchemy>=2.0",              # database toolkit
+    "psycopg[binary]>=3.2",         # Postgres driver
+    "qdrant-client~=1.20.0",        # match the Qdrant server image in docker-compose.yml
+    "pyjwt>=2.9",                   # JWT login tokens (Phase 3)
+    "bcrypt>=4.1",                  # password hashing (Phase 3)
+    "python-multipart>=0.0.9",      # form/file uploads (Phase 8)
+    "httpx>=0.27",                  # HTTP client (Ollama calls, test client)
+    "pyyaml>=6.0",                  # reading manifest.yaml / personas.yaml
+    # --- document parsing (Phase 4) ---
+    "pymupdf>=1.24",                # PDF text, fonts, colours, tables (AGPL-3.0, free)
+    "python-docx>=1.1",             # Word documents
+    "openpyxl>=3.1",                # Excel spreadsheets
+    # --- embeddings (Phase 5): small local ONNX models, no GPU, no API key ---
+    "fastembed>=0.4",               # dense (BGE) + sparse (BM25) embeddings
+]
+
+[project.optional-dependencies]
+# Writer for the synthetic PDF documents (scripts/generate_dataset.py).
+dataset = [
+    "fpdf2>=2.7",
+]
+security = [
+    "presidio-analyzer>=2.2",
+    "presidio-anonymizer>=2.2",
+]
+# Everything needed to develop and test: dataset writers + pytest + PDF reader + linter.
+dev = [
+    "enterprise-rag-rbac[dataset]",
+    "pytest>=8.0",
+    "pypdf>=4.0",
+    "ruff>=0.6",
+]
+
+# --- Tool settings ---
+# Only the app/ folder is packaged (scripts/ and tests/ are dev-only).
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+# Ship the web UI's static files with the package (Phase 10).
+[tool.setuptools.package-data]
+app = ["web/*", "web/css/*", "web/js/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Everyday run skips "slow" tests (real models). Everything: pytest -m "slow or not slow"
+addopts = "-q -m 'not slow'"
+markers = ["slow: uses the real AI models end to end (minutes, not seconds)"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]

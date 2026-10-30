@@ -1,0 +1,32 @@
+<!doctype html>
+<!--
+  FILE:         app/web/index.html
+  WHAT IT DOES: The single page of the web UI. It is only a skeleton - all screens
+                (login, chat, admin) are built by the JavaScript in js/.
+  WHERE IT FITS: Phase 10. Served by FastAPI at http://localhost:8000/app/
+  SECURITY:     No inline <script> or <style>: the page is served with a strict
+                Content-Security-Policy that only allows files from this server.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Orbitra Assist</title>
+  <meta name="description" content="Internal document assistant with role-based access control">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/styles.css">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <!-- 1. TOP BAR: brand, current user, persona switcher, logout (filled by main.js) -->
+  <header class="topbar" id="topbar" hidden></header>
+
+  <!-- 2. MAIN AREA: login screen, chat or admin pages are rendered in here -->
+  <main id="app" class="app" aria-live="polite">
+    <p class="boot">Loading…</p>
+  </main>
+
+  <!-- 3. TOASTS: short status messages ("Access updated", errors) -->
+  <div id="toasts" class="toasts" role="status" aria-live="polite"></div>
+</body>
+</html>

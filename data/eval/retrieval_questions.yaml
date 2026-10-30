@@ -1,0 +1,47 @@
+# =============================================================================
+# FILE:         data/eval/retrieval_questions.yaml
+# WHAT IT IS:   Extra retrieval-quality questions (Phase 11), on top of the 21 golden
+#               questions in golden_qa.yaml. Different wording from the documents on
+#               purpose (synonyms, paraphrases) - plus some exact codes and names.
+#               Each names the ONE document that answers it.
+# =============================================================================
+
+questions:
+  - {doc_id: employee-handbook, question: "How many sick days do I have each year?"}
+  - {doc_id: employee-handbook, question: "What's the daily meal allowance when travelling?"}
+  - {doc_id: employee-handbook, question: "How often do Toronto staff have to come into the office?"}
+  - {doc_id: holiday-calendar-2026, question: "Is Good Friday a day off?"}
+  - {doc_id: holiday-calendar-2026, question: "On which date is Boxing Day observed in 2026?"}
+  - {doc_id: it-helpdesk-faq, question: "I forgot my password - how do I reset it?"}
+  - {doc_id: it-helpdesk-faq, question: "How often are laptops replaced?"}
+  - {doc_id: it-helpdesk-faq, question: "What phone extension reaches the helpdesk?"}
+  - {doc_id: office-wifi-guide, question: "Which wireless network should visitors use?"}
+  - {doc_id: office-wifi-guide, question: "How do guests get internet access in the office?"}
+  - {doc_id: product-roadmap-2027, question: "When will customer data be stored in Europe?"}
+  - {doc_id: product-roadmap-2027, question: "What ships in the first quarter of 2027?"}
+  - {doc_id: employee-directory, question: "Who does Marco Bellini report to?"}
+  - {doc_id: employee-directory, question: "Which office does Grace Lindqvist work in?"}
+  - {doc_id: platform-architecture, question: "What programming language is fleet-api written in?"}
+  - {doc_id: platform-architecture, question: "What is the recovery point objective?"}
+  - {doc_id: incident-runbook, question: "How quickly must on-call engineers acknowledge a page?"}
+  - {doc_id: incident-runbook, question: "When must a blameless postmortem happen?"}
+  - {doc_id: sales-playbook, question: "How much does Orbitra charge per vehicle?"}
+  - {doc_id: sales-playbook, question: "Who must sign off on a discount larger than 25%?"}
+  - {doc_id: performance-review-guidelines, question: "When are calibration sessions held?"}
+  - {doc_id: performance-review-guidelines, question: "What happens to someone rated 1?"}
+  - {doc_id: salary-bands-2026, question: "What is the top of the L5 pay range?"}
+  - {doc_id: salary-bands-2026, question: "Are remote workers paid less than the band?"}
+  - {doc_id: workplace-investigation-2026-07, question: "Who investigated the duplicate dinner expense claims?"}
+  - {doc_id: workplace-investigation-2026-07, question: "When was case HR-2026-014 closed?"}
+  - {doc_id: department-budgets-fy2027, question: "How much travel budget does Sales have in FY2027?"}
+  - {doc_id: department-budgets-fy2027, question: "What is the total company budget for FY2027?"}
+  - {doc_id: cloud-cost-review-fy2027, question: "What was the cloud run-rate in FY2026?"}
+  - {doc_id: cloud-cost-review-fy2027, question: "How will Kafka telemetry retention change to save money?"}
+  - {doc_id: payroll-2026-q3, question: "How many employees were paid in Q3 2026?"}
+  - {doc_id: payroll-2026-q3, question: "What was the total sales commission paid in Q3 2026?"}
+  - {doc_id: exec-compensation-2026, question: "What is the CFO's bonus target?"}
+  - {doc_id: exec-compensation-2026, question: "How much equity does the CTO hold?"}
+  - {doc_id: board-minutes-2026-q3, question: "What is the company's annual recurring revenue?"}
+  - {doc_id: board-minutes-2026-q3, question: "When is the next board meeting?"}
+  - {doc_id: restructuring-plan-2027, question: "How much severance will affected employees get?"}
+  - {doc_id: restructuring-plan-2027, question: "When will the Austin office close?"}

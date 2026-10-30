@@ -1,0 +1,82 @@
+# Demo personas for Orbitra Systems (a fictional company).
+# Each one exercises a different part of the access policy. Phase 3 seeds them as login
+# users (scripts/seed_users.py, which logs in with email); the RBAC leak tests (Phase 11)
+# attack the system as each of them.
+
+personas:
+  - user_id: u_intern
+    name: Aarav Mehta
+    email: aarav.mehta@orbitra.example
+    title: Software Engineering Intern
+    role: intern
+    clearance: 1
+    departments: [engineering]
+
+  - user_id: u_engineer
+    name: Lena Okafor
+    email: lena.okafor@orbitra.example
+    title: Software Engineer II
+    role: employee
+    clearance: 2
+    departments: [engineering]
+
+  - user_id: u_sales_rep
+    name: Marco Bellini
+    email: marco.bellini@orbitra.example
+    title: Account Executive
+    role: employee
+    clearance: 2
+    departments: [sales]
+
+  # Granted the finance cloud-cost review by name (need-to-know via allowed_users).
+  - user_id: u_eng_manager
+    name: Priya Raman
+    email: priya.raman@orbitra.example
+    title: Engineering Manager
+    role: manager
+    clearance: 3
+    departments: [engineering]
+
+  # Explicitly denied the July 2026 investigation report (they were a witness).
+  - user_id: u_hr_partner
+    name: Daniel Kim
+    email: daniel.kim@orbitra.example
+    title: HR Business Partner
+    role: hr
+    clearance: 3
+    departments: [hr]
+
+  - user_id: u_finance_analyst
+    name: Sofia Alvarez
+    email: sofia.alvarez@orbitra.example
+    title: Senior Financial Analyst
+    role: finance
+    clearance: 3
+    departments: [finance]
+
+  - user_id: u_cfo
+    name: Thomas Reed
+    email: thomas.reed@orbitra.example
+    title: Chief Financial Officer
+    role: executive
+    clearance: 4
+    departments: [executive, finance]
+
+  - user_id: u_ceo
+    name: Helena Voss
+    email: helena.voss@orbitra.example
+    title: Chief Executive Officer
+    role: executive
+    clearance: 4
+    departments: [executive, engineering, sales, hr, finance]
+
+  # Document administrator (Phase 8): may upload documents and change their ACLs, but
+  # admin rights do NOT widen what he can READ - search still uses clearance 3 +
+  # engineering. Admins also cannot grant themselves access.
+  - user_id: u_it_admin
+    name: Samuel Osei
+    email: samuel.osei@orbitra.example
+    title: Engineering Manager, Platform
+    role: admin
+    clearance: 3
+    departments: [engineering]

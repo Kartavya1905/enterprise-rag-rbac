@@ -1,0 +1,21 @@
+.venv
+venv
+__pycache__
+*.pyc
+.pytest_cache
+.ruff_cache
+.env
+.env.*
+data/dev.db
+data/qdrant
+data/models
+.git
+.github
+tests
+frontend
+reports
+# dev-only scripts (need the [dataset] / [dev] extras, not installed in the image)
+scripts/dataset
+scripts/evals
+scripts/generate_dataset.py
+scripts/run_evals.py

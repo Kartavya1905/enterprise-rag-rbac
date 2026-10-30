@@ -1,0 +1,258 @@
+/*
+ * FILE:         app/web/css/styles.css
+ * WHAT IT DOES: All styling for the web UI. Colours are defined once as variables
+ *               (light theme), then swapped for dark mode when the system asks for it.
+ * WHERE IT FITS: Phase 10.
+ *
+ * Sections: 1 colours · 2 base · 3 top bar · 4 buttons/forms · 5 login · 6 chat
+ *           7 admin tables · 8 audit · 9 toasts · 10 small screens
+ */
+
+/* ============================================================================
+   1. COLOURS (design tokens)
+   ========================================================================== */
+:root {
+  --bg: #f5f6fa;
+  --surface: #ffffff;
+  --surface-2: #eef1f7;
+  --text: #1c2233;
+  --muted: #667085;
+  --border: #dde2ec;
+  --primary: #2f5bd3;
+  --primary-text: #ffffff;
+  --danger: #c4372e;
+  --ok: #1f8a4c;
+  --warn: #b26b00;
+  --user-bubble: #2f5bd3;
+  --user-bubble-text: #ffffff;
+  /* clearance levels */
+  --lvl-1: #1f8a4c; --lvl-2: #2f6fd3; --lvl-3: #b26b00; --lvl-4: #c4372e;
+  --radius: 12px;
+  --shadow: 0 1px 2px rgba(16, 24, 40, .06), 0 4px 12px rgba(16, 24, 40, .06);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1218;
+    --surface: #171b24;
+    --surface-2: #1f2430;
+    --text: #e6e9f0;
+    --muted: #9aa3b5;
+    --border: #2b3240;
+    --primary: #6d8ff0;
+    --primary-text: #0b0e14;
+    --danger: #f0776e;
+    --ok: #4cc584;
+    --warn: #f0b04a;
+    --user-bubble: #34509f;
+    --user-bubble-text: #ffffff;
+    --lvl-1: #4cc584; --lvl-2: #6d9bf0; --lvl-3: #f0b04a; --lvl-4: #f0776e;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4);
+    color-scheme: dark;
+  }
+}
+
+/* ============================================================================
+   2. BASE
+   ========================================================================== */
+* { box-sizing: border-box; }
+/* The `hidden` attribute must win over any `display:` rule below (e.g. .topbar). */
+[hidden] { display: none !important; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+h2, h3 { margin: 0 0 .5rem; line-height: 1.25; }
+.app { flex: 1; width: 100%; max-width: 1100px; margin: 0 auto; padding: 16px;
+  display: flex; flex-direction: column; min-height: 0; }
+.muted { color: var(--muted); }
+.mono { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 13px; }
+.error { color: var(--danger); margin: .25rem 0; min-height: 1.2em; }
+.boot { color: var(--muted); text-align: center; margin-top: 20vh; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 20px; }
+.row { display: flex; gap: 8px; align-items: center; }
+
+.chip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px; border-radius: 999px;
+  font-size: 12px; font-weight: 600; white-space: nowrap; color: #fff; }
+.lvl-1 { background: var(--lvl-1); } .lvl-2 { background: var(--lvl-2); }
+.lvl-3 { background: var(--lvl-3); } .lvl-4 { background: var(--lvl-4); }
+
+/* ============================================================================
+   3. TOP BAR
+   ========================================================================== */
+.topbar { display: flex; align-items: center; gap: 16px; padding: 10px 16px;
+  background: var(--surface); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 17px; }
+.brand-large { font-size: 26px; margin-bottom: 8px; }
+.logo { width: 22px; height: 22px; border-radius: 6px; background: var(--primary);
+  box-shadow: inset 0 0 0 5px var(--primary), inset 0 0 0 8px var(--surface); }
+.brand-large .logo { width: 32px; height: 32px; }
+.tabs { display: flex; gap: 4px; }
+.tab, .subtab { background: none; border: 0; color: var(--muted); font: inherit; font-weight: 600;
+  padding: 8px 12px; border-radius: 8px; cursor: pointer; }
+.tab:hover, .subtab:hover { background: var(--surface-2); color: var(--text); }
+.tab.active, .subtab.active { background: var(--surface-2); color: var(--primary); }
+.who { margin-left: auto; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.who-text { display: flex; flex-direction: column; line-height: 1.2; text-align: right; }
+.who-name { font-weight: 600; }
+.who-text .muted { font-size: 12px; }
+.switcher { max-width: 240px; }
+
+/* ============================================================================
+   4. BUTTONS AND FORMS
+   ========================================================================== */
+.btn { font: inherit; font-weight: 600; border: 1px solid var(--border); background: var(--surface);
+  color: var(--text); padding: 9px 16px; border-radius: 8px; cursor: pointer; }
+.btn:hover { background: var(--surface-2); }
+.btn:disabled { opacity: .55; cursor: progress; }
+.btn-primary { background: var(--primary); border-color: var(--primary); color: var(--primary-text); }
+.btn-primary:hover { background: var(--primary); filter: brightness(1.08); }
+.btn-small { padding: 5px 10px; font-size: 13px; }
+.btn-danger { color: var(--danger); }
+input, select, textarea { font: inherit; color: var(--text); background: var(--surface);
+  border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
+input:focus, select:focus, textarea:focus, button:focus-visible {
+  outline: 2px solid var(--primary); outline-offset: 1px; }
+.field { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 600; }
+.field > span { color: var(--muted); }
+.checks { display: flex; flex-wrap: wrap; gap: 6px 14px; font-weight: 400; }
+.check { display: inline-flex; gap: 5px; align-items: center; }
+
+/* ============================================================================
+   5. LOGIN
+   ========================================================================== */
+.login { display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 32px;
+  align-items: start; margin-top: 6vh; }
+.login-intro > p { color: var(--muted); }
+.login-form { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+.personas h3 { margin-top: 4px; }
+.persona-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px; margin-top: 12px; }
+.persona { display: flex; flex-direction: column; gap: 4px; text-align: left; font: inherit;
+  color: var(--text); background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 12px; cursor: pointer; box-shadow: var(--shadow); }
+.persona:hover { border-color: var(--primary); }
+.persona-name { font-weight: 700; }
+.persona-title { color: var(--muted); font-size: 13px; }
+.persona-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 12px;
+  margin-top: 4px; }
+
+/* ============================================================================
+   6. CHAT
+   ========================================================================== */
+.chat { display: flex; flex-direction: column; flex: 1; min-height: 0; gap: 12px; }
+.thread { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;
+  padding: 4px 2px; min-height: 240px; }
+.welcome { margin: auto 0; text-align: center; padding: 24px 8px; }
+.suggestions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 16px; }
+.suggestion { font: inherit; font-size: 14px; color: var(--text); background: var(--surface);
+  border: 1px solid var(--border); border-radius: 999px; padding: 7px 14px; cursor: pointer; }
+.suggestion:hover { border-color: var(--primary); color: var(--primary); }
+
+.msg { max-width: 82%; padding: 12px 16px; border-radius: var(--radius); white-space: pre-wrap;
+  overflow-wrap: anywhere; }
+.msg-user { align-self: flex-end; background: var(--user-bubble); color: var(--user-bubble-text);
+  border-bottom-right-radius: 4px; }
+.msg-bot { align-self: flex-start; background: var(--surface); border: 1px solid var(--border);
+  box-shadow: var(--shadow); border-bottom-left-radius: 4px; }
+.msg-neutral { border-left: 4px solid var(--muted); color: var(--muted); }
+.msg-refused { border-left: 4px solid var(--warn); }
+.msg-error { border-left: 4px solid var(--danger); color: var(--danger); }
+.pending { display: flex; align-items: center; gap: 10px; color: var(--muted); }
+.spinner { width: 16px; height: 16px; border: 2px solid var(--border);
+  border-top-color: var(--primary); border-radius: 50%; animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.answer { margin: 0; }
+.cite { font: inherit; font-size: 12px; font-weight: 700; color: var(--primary);
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px;
+  padding: 0 6px; margin: 0 2px; cursor: pointer; vertical-align: 1px; }
+.sources { margin-top: 10px; font-size: 13px; white-space: normal; }
+.sources summary { cursor: pointer; color: var(--muted); font-weight: 600; }
+.sources ol { list-style: none; padding: 0; margin: 8px 0 0; display: flex; flex-direction: column; gap: 6px; }
+.source { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; padding: 6px 10px;
+  border-radius: 8px; background: var(--surface-2); transition: box-shadow .2s; }
+.source.cited { box-shadow: inset 3px 0 0 var(--primary); }
+.source.flash { box-shadow: 0 0 0 2px var(--primary); }
+.source-id { font-weight: 700; color: var(--primary); }
+.source-title { font-weight: 600; }
+.source-loc { color: var(--muted); }
+
+.ask-bar { display: flex; gap: 8px; align-items: flex-end; background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--radius); padding: 8px; box-shadow: var(--shadow); }
+.ask-input { flex: 1; resize: none; border: 0; padding: 8px; }
+.ask-input:focus { outline: none; }
+
+/* ============================================================================
+   7. ADMIN - tabs, tables, editor, upload
+   ========================================================================== */
+.admin { display: flex; flex-direction: column; gap: 12px; }
+.subtabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+.admin-body { display: flex; flex-direction: column; gap: 12px; }
+.table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); }
+.table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .03em;
+  color: var(--muted); background: var(--surface-2); padding: 8px 10px; }
+.table td { padding: 8px 10px; border-top: 1px solid var(--border); vertical-align: top; }
+.doc-title { font-weight: 600; }
+.actions { white-space: nowrap; display: flex; gap: 6px; }
+.editor-row td { background: var(--surface-2); }
+.editor { display: grid; grid-template-columns: 120px 1fr 1fr 1fr; gap: 12px; align-items: end; }
+.editor .field:nth-child(2) { grid-column: span 3; }
+.editor-actions { display: flex; gap: 6px; }
+.upload { display: flex; flex-direction: column; gap: 12px; max-width: 560px; }
+
+/* ============================================================================
+   8. AUDIT DASHBOARD
+   ========================================================================== */
+.audit-head { display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  flex-wrap: wrap; margin-top: 4px; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 14px; box-shadow: var(--shadow); }
+.stat-value { font-size: 26px; font-weight: 700; }
+.stat-label { color: var(--muted); font-size: 13px; }
+.stat-alert { border-color: var(--warn); }
+.stat-alert .stat-value { color: var(--warn); }
+.chain { font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px;
+  background: var(--surface-2); }
+.chain-ok { color: var(--ok); }
+.chain-bad { color: var(--danger); }
+.events .question { max-width: 340px; }
+.hidden-tag { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .04em; color: var(--muted); border: 1px dashed var(--muted); border-radius: 4px;
+  padding: 0 5px; }
+.outcome { font-size: 12px; font-weight: 700; }
+.outcome-ok { color: var(--ok); }
+.outcome-refused, .outcome-denied, .outcome-failed, .outcome-blocked,
+.outcome-rate_limited, .outcome-rejected, .outcome-error { color: var(--danger); }
+.outcome-no_results { color: var(--muted); }
+
+/* ============================================================================
+   9. TOASTS
+   ========================================================================== */
+.toasts { position: fixed; right: 16px; bottom: 16px; display: flex; flex-direction: column;
+  gap: 8px; z-index: 10; max-width: calc(100vw - 32px); }
+.toast { background: var(--surface); border: 1px solid var(--border); border-left-width: 4px;
+  border-radius: 8px; padding: 10px 14px; box-shadow: var(--shadow); }
+.toast-ok { border-left-color: var(--ok); }
+.toast-error { border-left-color: var(--danger); }
+
+/* ============================================================================
+   10. SMALL SCREENS (phones)
+   ========================================================================== */
+@media (max-width: 760px) {
+  .login { grid-template-columns: 1fr; margin-top: 2vh; }
+  .who { margin-left: 0; width: 100%; justify-content: space-between; }
+  .who-text { text-align: left; }
+  .switcher { max-width: 100%; flex: 1; }
+  .msg { max-width: 100%; }
+  .editor { grid-template-columns: 1fr; }
+  .editor .field:nth-child(2) { grid-column: auto; }
+}

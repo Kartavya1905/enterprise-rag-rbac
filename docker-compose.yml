@@ -1,0 +1,111 @@
+# =============================================================================
+# FILE:         docker-compose.yml
+# WHAT IT DOES: Starts the whole system with one command: `docker compose up -d`
+# WHERE IT FITS: Phase 1. Runs the same infrastructure a real company would.
+#
+#   api (:8000) ---> postgres (:5432)   users, roles, audit log
+#        |
+#        +--------> qdrant (:6333)      document chunks + access labels
+#
+#   ollama (:11434)  free local LLM - optional, needed from Phase 7
+#
+# Every port is published on 127.0.0.1 ONLY: reachable from this computer, not from
+# other devices on the same Wi-Fi (Postgres has a dev password, Qdrant has no auth).
+# =============================================================================
+
+# Folder name has spaces/parentheses, so pin a clean project name.
+name: enterprise-rag-rbac
+
+services:
+  # ---------------------------------------------------------------------------
+  # SERVICE 1: postgres - the relational database
+  # ---------------------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: rag
+      POSTGRES_PASSWORD: rag_dev_password  # local dev only
+      POSTGRES_DB: enterprise_rag
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data  # data survives container restarts
+    healthcheck:  # "healthy" once Postgres accepts connections
+      test: ["CMD-SHELL", "pg_isready -U rag -d enterprise_rag"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # ---------------------------------------------------------------------------
+  # SERVICE 2: qdrant - the vector database
+  # ---------------------------------------------------------------------------
+  qdrant:
+    # Keep in step with the qdrant-client minor version in pyproject.toml.
+    image: qdrant/qdrant:v1.20.0
+    ports:
+      - "127.0.0.1:6333:6333"   # REST + dashboard at http://localhost:6333/dashboard
+      - "127.0.0.1:6334:6334"   # gRPC
+    volumes:
+      - qdrant_data:/qdrant/storage
+    healthcheck:  # "healthy" once port 6333 accepts connections
+      test: ["CMD-SHELL", "bash -c ':> /dev/tcp/127.0.0.1/6333' || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # ---------------------------------------------------------------------------
+  # SERVICE 3: api - our FastAPI app, built from the Dockerfile
+  # ---------------------------------------------------------------------------
+  api:
+    build: .
+    env_file:
+      - path: .env
+        required: false
+    environment:  # inside Docker, services find each other by service name
+      DATABASE_URL: postgresql+psycopg://rag:rag_dev_password@postgres:5432/enterprise_rag
+      QDRANT_URL: http://qdrant:6333
+      OLLAMA_BASE_URL: http://ollama:11434
+    ports:
+      - "127.0.0.1:8000:8000"  # web UI at http://localhost:8000/app/
+    volumes:
+      - model_cache:/srv/data/models  # embedding/reranker models, downloaded once
+      # Documents + manifest and the chunks file: admins change these via /admin (Phase 8)
+      - ./data/raw:/srv/data/raw
+      - ./data/processed:/srv/data/processed
+      # Personas; `scripts.bootstrap` writes the demo passwords here (git-ignored) (Phase 12)
+      - ./data/org:/srv/data/org
+    healthcheck:  # "healthy" once /health/ready answers 200 (both databases reachable)
+      test: ["CMD", "python", "-c",
+             "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/ready')"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    depends_on:  # wait until both databases report healthy before starting
+      postgres:
+        condition: service_healthy
+      qdrant:
+        condition: service_healthy
+
+  # ---------------------------------------------------------------------------
+  # SERVICE 4: ollama - free local LLM (opt-in: large image + model download)
+  # Needed from Phase 7:
+  #   docker compose --profile llm up -d ollama
+  #   docker compose exec ollama ollama pull qwen2.5:7b    (or llama3.2:3b without a GPU)
+  # With an NVIDIA GPU (much faster), add the GPU override file:
+  #   docker compose -f docker-compose.yml -f docker-compose.gpu.yml --profile llm up -d ollama
+  # ---------------------------------------------------------------------------
+  ollama:
+    image: ollama/ollama:0.12.6
+    profiles: ["llm"]
+    ports:
+      - "127.0.0.1:11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
+# Named volumes = Docker-managed storage that outlives the containers.
+volumes:
+  pg_data:
+  qdrant_data:
+  ollama_data:
+  model_cache:

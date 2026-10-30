@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# Secrets (the *.example templates ARE committed)
+.env
+.env.*
+!.env.example
+!.env.prod.example
+data/org/dev_credentials.yaml
+
+# Local data (raw docs are synthetic but may be large; DBs are generated)
+data/dev.db
+data/qdrant/
+data/models/
+data/processed/*
+!data/processed/.gitkeep
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
