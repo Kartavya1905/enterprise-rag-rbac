@@ -96,7 +96,7 @@ services:
   #   docker compose -f docker-compose.yml -f docker-compose.gpu.yml --profile llm up -d ollama
   # ---------------------------------------------------------------------------
   ollama:
-    image: ollama/ollama:0.12.6
+    image: ollama/ollama:0.40.11
     profiles: ["llm"]
     ports:
       - "127.0.0.1:11434:11434"
