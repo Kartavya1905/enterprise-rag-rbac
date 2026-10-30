@@ -1,5 +1,7 @@
 # Enterprise RAG with Role-Based Access Control (RBAC)
 
+[![CI](https://github.com/Kartavya1905/enterprise-rag-rbac/actions/workflows/ci.yml/badge.svg)](https://github.com/Kartavya1905/enterprise-rag-rbac/actions/workflows/ci.yml)
+
 An internal document assistant that answers questions over enterprise documents (PDFs, sheets)
 **without leaking information a user isn't cleared to see**. Access control is enforced at
 retrieval time: unauthorized chunks are filtered out of the vector/keyword search, so the LLM
