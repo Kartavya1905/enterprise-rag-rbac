@@ -21,7 +21,7 @@ services:
   # SERVICE 1: postgres - the relational database
   # ---------------------------------------------------------------------------
   postgres:
-    image: postgres:16-alpine
+    image: postgres:18-alpine
     environment:
       POSTGRES_USER: rag
       POSTGRES_PASSWORD: rag_dev_password  # local dev only
