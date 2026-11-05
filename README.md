@@ -45,7 +45,7 @@ docker compose exec ollama ollama pull qwen2.5:7b  # once (~4.7 GB); llama3.2:3b
 docker compose exec api python -m scripts.bootstrap
 ```
 
-Open **http://localhost:8000/app/**, sign in as the intern and then as the CEO, and ask
+Open **http://localhost:8001/app/**, sign in as the intern and then as the CEO, and ask
 *"What is the CEO's base salary?"*. Persona passwords are in `data/org/dev_credentials.yaml`.
 To check the installation: `docker compose exec api python -m scripts.smoke_test`.
 
