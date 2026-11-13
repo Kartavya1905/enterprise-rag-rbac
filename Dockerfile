@@ -6,7 +6,7 @@
 # =============================================================================
 
 # --- STEP 1: start from a small official Python 3.12 image ---
-FROM python:3.12-slim
+FROM python:3.15-slim
 
 # Don't write .pyc files; print logs immediately; don't keep pip's download cache.
 ENV PYTHONDONTWRITEBYTECODE=1 \
