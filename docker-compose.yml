@@ -41,7 +41,7 @@ services:
   # ---------------------------------------------------------------------------
   qdrant:
     # Keep in step with the qdrant-client minor version in pyproject.toml.
-    image: qdrant/qdrant:v1.20.0
+    image: qdrant/qdrant:v1.20.2
     ports:
       - "127.0.0.1:6333:6333"   # REST + dashboard at http://localhost:6333/dashboard
       - "127.0.0.1:6334:6334"   # gRPC
